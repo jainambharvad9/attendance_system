@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\AttendanceController;
+use App\Http\Controllers\AdminStaffController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\LocationController;
@@ -24,5 +25,7 @@ Route::middleware('auth')->group(function () {
 
     Route::middleware('role:admin')->group(function () {
         Route::resource('locations', LocationController::class)->except(['show']);
+        Route::get('/admin/staff/create', [AdminStaffController::class, 'create'])->name('admin.staff.create');
+        Route::post('/admin/staff', [AdminStaffController::class, 'store'])->name('admin.staff.store');
     });
 });

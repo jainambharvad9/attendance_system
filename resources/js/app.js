@@ -70,6 +70,7 @@ function initAdmin(config) {
 			form.appendChild(method);
 
 			form.querySelector('[name="name"]').value = location.name;
+			form.querySelector('[name="address"]').value = location.address || '';
 			form.querySelector('[name="latitude"]').value = location.latitude;
 			form.querySelector('[name="longitude"]').value = location.longitude;
 			form.querySelector('[name="radius_meters"]').value = location.radius_meters;

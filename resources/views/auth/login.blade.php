@@ -42,7 +42,7 @@
             <div class="notice-card" style="margin-top: 1rem;">
                 <div class="card-title" style="margin-bottom: 0.45rem;">Demo Credentials</div>
                 <div class="mono">admin@fieldtrack.local / admin123</div>
-                <div class="mono">rahul@fieldtrack.local / user123</div>
+                <div class="mono">staff@fieldtrack.local / staff123</div>
             </div>
         </section>
     </main>

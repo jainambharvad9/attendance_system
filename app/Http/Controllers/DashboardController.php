@@ -38,7 +38,14 @@ class DashboardController extends Controller
             ]);
         }
 
-        $assignedLocations = $user->assignedLocations()
+        $assignedLocations = Location::query()
+            ->where('active', true)
+            ->where(function ($query) use ($user) {
+                $query->where('is_public', true)
+                    ->orWhereHas('assignedUsers', function ($assignedQuery) use ($user) {
+                        $assignedQuery->whereKey($user->id);
+                    });
+            })
             ->with(['attendanceLogs'])
             ->latest()
             ->get();

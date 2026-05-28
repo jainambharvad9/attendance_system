@@ -8,6 +8,7 @@
         fn($location) => [
             'id' => $location->id,
             'name' => $location->name,
+            'address' => $location->address,
             'latitude' => (float) $location->latitude,
             'longitude' => (float) $location->longitude,
             'radius_meters' => (int) $location->radius_meters,
@@ -74,6 +75,21 @@
                     <div class="nav-tab" data-admin-tab="logs">Attendance</div>
                     <div class="nav-tab" data-admin-tab="map">Map View</div>
                 </nav>
+
+                <div class="section-header" style="margin: 1rem 0 1.1rem;">
+                    <div>
+                        <div class="section-title">Admin Setup</div>
+                        <div class="help-text">Manage your Ahmedabad office location and register new staff from here.</div>
+                    </div>
+                    <div class="btn-stack">
+                        <a class="btn btn-primary btn-sm" href="{{ route('locations.create') }}">
+                            <i class="bi bi-geo-alt-fill"></i> Add Attendance Location
+                        </a>
+                        <a class="btn btn-ghost btn-sm" href="{{ route('admin.staff.create') }}">
+                            <i class="bi bi-person-plus"></i> Register Staff
+                        </a>
+                    </div>
+                </div>
 
                 <section data-admin-pane="dashboard">
                     <div class="stat-row">
@@ -154,6 +170,7 @@
                                 <div class="loc-dot"><i class="bi bi-geo-alt-fill"></i></div>
                                 <div class="loc-info">
                                     <div class="loc-name">{{ $location->name }}</div>
+                                    <div class="location-meta">{{ $location->address }}</div>
                                     <div class="loc-coords">{{ number_format($location->latitude, 4) }},
                                         {{ number_format($location->longitude, 4) }}</div>
                                     <div class="loc-radius">Radius: {{ $location->radius_meters }} m</div>
@@ -256,20 +273,27 @@
                             @csrf
                             <div class="field">
                                 <label for="location-name">Location Name</label>
-                                <input id="location-name" name="name" type="text" placeholder="Client HQ Mumbai"
-                                    required>
+                                <input id="location-name" name="name" type="text"
+                                    placeholder="FieldTrack Ahmedabad Office" required>
+                            </div>
+
+                            <div class="field">
+                                <label for="location-address">Office Address</label>
+                                <textarea id="location-address" name="address" rows="3"
+                                    placeholder="Ashwmegh Avenue, nr. Helmet House, Mithakhali, Navrangpura, Ahmedabad, Gujarat 380009" required>
+                                </textarea>
                             </div>
                             <div class="field-grid"
                                 style="display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:0.75rem;">
                                 <div class="field">
                                     <label for="location-latitude">Latitude</label>
                                     <input id="location-latitude" name="latitude" type="number" step="0.000001"
-                                        placeholder="19.076000" required>
+                                        placeholder="23.025300" required>
                                 </div>
                                 <div class="field">
                                     <label for="location-longitude">Longitude</label>
                                     <input id="location-longitude" name="longitude" type="number" step="0.000001"
-                                        placeholder="72.877700" required>
+                                        placeholder="72.559100" required>
                                 </div>
                                 <div class="field">
                                     <label for="location-radius">Radius (m)</label>
@@ -462,14 +486,18 @@
         </main>
     </div>
 
+    @php
+        $jsRoutes = [
+            'locationStore' => route('locations.store'),
+            'locationBase' => url('/locations'),
+            'attendanceStore' => route('attendance.store'),
+        ];
+    @endphp
+
     <script>
         window.FIELDTRACK = {
             mode: @json($mode),
-            routes: @json([
-                'locationStore' => route('locations.store'),
-                'locationBase' => url('/locations'),
-                'attendanceStore' => route('attendance.store'),
-            ]),
+            routes: {!! json_encode($jsRoutes) !!},
             locations: @json($locationPayload),
             logs: @json($logPayload),
             users: @json($userPayload),

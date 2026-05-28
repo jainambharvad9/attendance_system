@@ -3,8 +3,10 @@
 namespace App\Http\Controllers;
 
 use App\Models\Location;
+use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Http\RedirectResponse;
+use Illuminate\View\View;
 use Illuminate\Support\Facades\DB;
 
 class LocationController extends Controller
@@ -20,9 +22,15 @@ class LocationController extends Controller
     /**
      * Show the form for creating a new resource.
      */
-    public function create(): RedirectResponse
+    public function create(): View
     {
-        return redirect()->route('dashboard');
+        return view('admin.locations.create', [
+            'users' => User::query()
+                ->where('role', 'user')
+                ->where('active', true)
+                ->orderBy('name')
+                ->get(),
+        ]);
     }
 
     /**
@@ -32,6 +40,7 @@ class LocationController extends Controller
     {
         $data = $request->validate([
             'name' => ['required', 'string', 'max:255'],
+            'address' => ['required', 'string', 'max:255'],
             'latitude' => ['required', 'numeric', 'between:-90,90'],
             'longitude' => ['required', 'numeric', 'between:-180,180'],
             'radius_meters' => ['required', 'integer', 'min:1', 'max:50000'],
@@ -43,6 +52,7 @@ class LocationController extends Controller
         $location = DB::transaction(function () use ($request, $data) {
             $location = Location::create([
                 'name' => $data['name'],
+                'address' => $data['address'],
                 'latitude' => $data['latitude'],
                 'longitude' => $data['longitude'],
                 'radius_meters' => $data['radius_meters'],
@@ -84,6 +94,7 @@ class LocationController extends Controller
     {
         $data = $request->validate([
             'name' => ['required', 'string', 'max:255'],
+            'address' => ['required', 'string', 'max:255'],
             'latitude' => ['required', 'numeric', 'between:-90,90'],
             'longitude' => ['required', 'numeric', 'between:-180,180'],
             'radius_meters' => ['required', 'integer', 'min:1', 'max:50000'],
@@ -96,6 +107,7 @@ class LocationController extends Controller
 
         $location->update([
             'name' => $data['name'],
+            'address' => $data['address'],
             'latitude' => $data['latitude'],
             'longitude' => $data['longitude'],
             'radius_meters' => $data['radius_meters'],
