@@ -254,15 +254,41 @@
                 </section>
 
                 <section data-admin-pane="map" class="hidden">
-                    <div class="section-title" style="margin-bottom: 0.85rem;">Location Map</div>
-                    <div id="admin-map-canvas" class="map-canvas">
-                        <div class="map-legend">
-                            <div class="map-legend-item"><span class="map-legend-dot"
-                                    style="background: var(--accent2);"></span> Client Site</div>
-                            <div class="map-legend-item"><span class="map-legend-dot"
-                                    style="background: var(--warn);"></span> Attendance</div>
+                    <div class="section-header" style="margin-bottom: 0.85rem;">
+                        <div>
+                            <div class="section-title">Location Map</div>
+                            <div class="help-text">Google Maps preview for the selected office location.</div>
                         </div>
+                        <a id="google-map-open-link" class="btn btn-primary btn-sm" href="#" target="_blank"
+                            rel="noopener">
+                            <i class="bi bi-box-arrow-up-right"></i> Open in Google Maps
+                        </a>
                     </div>
+
+                    @if ($locations->isNotEmpty())
+                        <div class="card map-card">
+                            <div class="map-selector" role="tablist" aria-label="Location selector">
+                                @foreach ($locations as $location)
+                                    <button class="btn btn-ghost btn-sm map-selector-btn" type="button"
+                                        data-google-map-location="{{ $location->id }}">
+                                        {{ $location->name }}
+                                    </button>
+                                @endforeach
+                            </div>
+
+                            <div class="map-details">
+                                <div class="map-details-name" id="google-map-location-name"></div>
+                                <div class="map-details-meta" id="google-map-location-meta"></div>
+                            </div>
+
+                            <div class="google-map-frame-wrap">
+                                <iframe id="google-map-frame" class="google-map-frame" loading="lazy"
+                                    referrerpolicy="no-referrer-when-downgrade" allowfullscreen></iframe>
+                            </div>
+                        </div>
+                    @else
+                        <div class="card empty-state">No locations available to show on Google Maps.</div>
+                    @endif
                 </section>
 
                 <div class="modal-overlay hidden" id="location-modal">

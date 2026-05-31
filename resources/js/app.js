@@ -48,6 +48,7 @@ function initAdmin(config) {
 
 	publicToggle.addEventListener('change', syncAssignmentField);
 	syncAssignmentField();
+	initGoogleMapPreview(config.locations || []);
 
 	window.openLocationModal = (location = null) => {
 		form.reset();
@@ -87,10 +88,6 @@ function initAdmin(config) {
 	};
 
 	window.closeLocationModal = () => modal.classList.add('hidden');
-
-	window.renderAdminMap = () => renderMap(config.locations, config.logs, 'admin-map-canvas');
-
-	renderMap(config.locations, config.logs, 'admin-map-canvas');
 }
 
 function initUser(config) {
@@ -420,6 +417,44 @@ function renderMap(locations, logs, containerId) {
 		pin.innerHTML = '<div class="pin-dot" style="background: var(--warn); width: 8px; height: 8px;"></div>';
 		container.appendChild(pin);
 	});
+}
+
+function initGoogleMapPreview(locations) {
+	const buttons = document.querySelectorAll('[data-google-map-location]');
+	const frame = document.getElementById('google-map-frame');
+	const openLink = document.getElementById('google-map-open-link');
+	const nameField = document.getElementById('google-map-location-name');
+	const metaField = document.getElementById('google-map-location-meta');
+
+	if (!buttons.length || !frame || !openLink || !nameField || !metaField) {
+		return;
+	}
+
+	const setSelectedLocation = (locationId) => {
+		const location = locations.find((item) => String(item.id) === String(locationId)) || locations[0];
+		if (!location) {
+			return;
+		}
+
+		buttons.forEach((button) => {
+			button.classList.toggle('active', button.dataset.googleMapLocation === String(location.id));
+		});
+
+		const lat = Number(location.latitude);
+		const lng = Number(location.longitude);
+		const query = encodeURIComponent(`${lat},${lng}`);
+
+		frame.src = `https://www.google.com/maps?q=${query}&z=17&output=embed`;
+		openLink.href = `https://www.google.com/maps/search/?api=1&query=${query}`;
+		nameField.textContent = location.name;
+		metaField.textContent = `${location.address || 'No address saved'} · ${lat.toFixed(6)}, ${lng.toFixed(6)}`;
+	};
+
+	buttons.forEach((button) => {
+		button.addEventListener('click', () => setSelectedLocation(button.dataset.googleMapLocation));
+	});
+
+	setSelectedLocation(buttons[0].dataset.googleMapLocation);
 }
 
 function mapScale(value, fromMin, fromMax, toMin, toMax) {
