@@ -10,6 +10,8 @@ Laravel-based attendance system for office and field staff. It includes:
 
 ## Setup
 
+Runtime requirement: PHP 8.3 or newer.
+
 1. Create a MySQL database named `fieldtrack_attendance`.
 2. Copy `.env.example` to `.env` if needed and set your MySQL credentials.
 3. Run:
