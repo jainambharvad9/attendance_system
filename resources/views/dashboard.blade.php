@@ -85,6 +85,9 @@
                         <a class="btn btn-primary btn-sm" href="{{ route('locations.create') }}">
                             <i class="bi bi-geo-alt-fill"></i> Add Attendance Location
                         </a>
+                        <a class="btn btn-ghost btn-sm" href="{{ route('admin.staff.index') }}">
+                            <i class="bi bi-people"></i> Staff Records
+                        </a>
                         <a class="btn btn-ghost btn-sm" href="{{ route('admin.staff.create') }}">
                             <i class="bi bi-person-plus"></i> Register Staff
                         </a>

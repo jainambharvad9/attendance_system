@@ -25,6 +25,9 @@ Route::middleware('auth')->group(function () {
 
     Route::middleware('role:admin')->group(function () {
         Route::resource('locations', LocationController::class)->except(['show']);
+        Route::get('/admin/staff', [AdminStaffController::class, 'index'])->name('admin.staff.index');
+        Route::get('/admin/staff/{staff}/password', [AdminStaffController::class, 'editPassword'])->name('admin.staff.password.edit');
+        Route::put('/admin/staff/{staff}/password', [AdminStaffController::class, 'updatePassword'])->name('admin.staff.password.update');
         Route::get('/admin/staff/create', [AdminStaffController::class, 'create'])->name('admin.staff.create');
         Route::post('/admin/staff', [AdminStaffController::class, 'store'])->name('admin.staff.store');
     });
