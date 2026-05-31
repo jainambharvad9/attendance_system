@@ -293,7 +293,7 @@ function initUser(config) {
 	});
 
 	setStep('choose');
-	renderMap(config.locations, config.logs, 'user-map-canvas');
+	initGoogleMapPreview(config.locations || []);
 }
 
 function fallbackGps(resolveLocation) {
