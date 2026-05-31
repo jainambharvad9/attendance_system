@@ -12,7 +12,8 @@
                 <div class="topbar-role">Reset Staff Password</div>
             </div>
             <div class="topbar-right">
-                <a class="btn btn-ghost btn-sm" href="{{ route('admin.staff.index') }}"><i class="bi bi-arrow-left"></i> Back to Staff</a>
+                <a class="btn btn-ghost btn-sm" href="{{ route('admin.staff.index') }}"><i class="bi bi-arrow-left"></i> Back
+                    to Staff</a>
             </div>
         </header>
 
@@ -20,7 +21,8 @@
             <div class="section-header" style="margin: 1rem 0 1.1rem;">
                 <div>
                     <div class="section-title">Reset Password</div>
-                    <div class="help-text">Create a new login password for {{ $staff->name }} without exposing the old one.</div>
+                    <div class="help-text">Create a new login password for {{ $staff->name }} without exposing the old one.
+                    </div>
                 </div>
             </div>
 
@@ -42,17 +44,21 @@
 
                     <div class="field">
                         <label for="password">New Password</label>
-                        <input id="password" type="password" name="password" minlength="6" required placeholder="Enter new password">
+                        <input id="password" type="password" name="password" minlength="6" required
+                            placeholder="Enter new password">
                     </div>
 
                     <div class="field">
                         <label for="password_confirmation">Confirm New Password</label>
-                        <input id="password_confirmation" type="password" name="password_confirmation" minlength="6" required placeholder="Repeat new password">
+                        <input id="password_confirmation" type="password" name="password_confirmation" minlength="6"
+                            required placeholder="Repeat new password">
                     </div>
 
                     <div class="btn-stack" style="justify-content:flex-end;">
-                        <a class="btn btn-ghost" href="{{ route('admin.staff.index') }}"><i class="bi bi-x-circle"></i> Cancel</a>
-                        <button class="btn btn-primary" type="submit"><i class="bi bi-arrow-repeat"></i> Reset Password</button>
+                        <a class="btn btn-ghost" href="{{ route('admin.staff.index') }}"><i class="bi bi-x-circle"></i>
+                            Cancel</a>
+                        <button class="btn btn-primary" type="submit"><i class="bi bi-arrow-repeat"></i> Reset
+                            Password</button>
                     </div>
                 </form>
             </section>
